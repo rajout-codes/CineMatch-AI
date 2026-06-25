@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineMatch AI - Smart Hybrid Recommendation System</title>
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Background Gradients -->
+    <div class="bg-gradient-glow-1"></div>
+    <div class="bg-gradient-glow-2"></div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-container">
+                <i data-lucide="film" class="logo-icon"></i>
+                <h1>CineMatch <span>AI</span></h1>
+            </div>
+            <p class="subtitle">Smart Movie Recommendation System using Hybrid Filtering (Content + Collaborative)</p>
+        </header>
+
+        <!-- Main Dashboard -->
+        <main class="dashboard-grid">
+            
+            <!-- Left Panel: Search & User Ratings -->
+            <section class="panel-left">
+                <!-- Search Card -->
+                <div class="glass-card card-search">
+                    <div class="card-header">
+                        <i data-lucide="search" class="card-header-icon"></i>
+                        <h2>Search & Rate Movies</h2>
+                    </div>
+                    <p class="card-desc">Find movies from the MovieLens dataset and rate them to build your taste profile.</p>
+                    
+                    <div class="search-input-wrapper">
+                        <input type="text" id="movie-search-input" placeholder="Type a movie title (e.g., Matrix, Toy Story, Inception)..." autocomplete="off">
+                        <button id="clear-search-btn" class="icon-btn hidden" title="Clear search">
+                            <i data-lucide="x"></i>
+                        </button>
+                    </div>
+
+                    <!-- Autocomplete / Search Results -->
+                    <div id="search-results-container" class="search-results-list hidden">
+                        <!-- Search result items will be dynamically injected here -->
+                    </div>
+
+                    <!-- Rating Interface (Hidden until a movie is selected) -->
+                    <div id="rating-widget" class="rating-widget hidden">
+                        <div class="selected-movie-info">
+                            <h3 id="selected-movie-title">Movie Title</h3>
+                            <span id="selected-movie-genres" class="movie-genres">Genres</span>
+                        </div>
+                        <div class="rating-selector">
+                            <span class="rating-label">Your Rating:</span>
+                            <select id="rating-dropdown" class="rating-select">
+                                <option value="" disabled selected>Choose a rating...</option>
+                                <option value="5.0">★★★★★ (5.0) - Outstanding</option>
+                                <option value="4.5">★★★★½ (4.5) - Excellent</option>
+                                <option value="4.0">★★★★☆ (4.0) - Very Good</option>
+                                <option value="3.5">★★★½☆ (3.5) - Good</option>
+                                <option value="3.0">★★★☆☆ (3.0) - Above Average</option>
+                                <option value="2.5">★★½☆☆ (2.5) - Average</option>
+                                <option value="2.0">★★☆☆☆ (2.0) - Below Average</option>
+                                <option value="1.5">★½☆☆☆ (1.5) - Poor</option>
+                                <option value="1.0">★☆☆☆☆ (1.0) - Terrible</option>
+                                <option value="0.5">½☆☆☆☆ (0.5) - Horrible</option>
+                            </select>
+                        </div>
+                        <div class="rating-widget-actions">
+                            <button id="cancel-rating-btn" class="btn btn-secondary">Cancel</button>
+                            <button id="submit-rating-btn" class="btn btn-primary">Submit Rating</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Ratings Card -->
+                <div class="glass-card card-ratings">
+                    <div class="card-header">
+                        <i data-lucide="heart" class="card-header-icon"></i>
+                        <h2>Your Taste Profile</h2>
+                        <span id="ratings-count-badge" class="badge">0 Rated</span>
+                    </div>
+                    
+                    <div id="ratings-list-container" class="ratings-list scrollable-panel">
+                        <!-- Empty State -->
+                        <div class="empty-state" id="ratings-empty-state">
+                            <i data-lucide="smile" class="empty-icon"></i>
+                            <p>No ratings yet. Rate movies above to enable hybrid recommendations!</p>
+                        </div>
+                        <!-- Rated movies will be dynamically injected here -->
+                    </div>
+                    
+                    <div class="ratings-actions hidden" id="ratings-actions-container">
+                        <button id="clear-all-ratings-btn" class="btn btn-danger">
+                            <i data-lucide="trash-2"></i> Clear All
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Panel: Recommendations -->
+            <section class="panel-right">
+                <!-- Recommendations Dashboard -->
+                <div class="glass-card card-recommendations">
+                    <div class="recommendations-header">
+                        <div class="card-header">
+                            <i data-lucide="sparkles" class="card-header-icon highlight"></i>
+                            <h2>Top 5 Smart Recommendations</h2>
+                        </div>
+                        <button id="get-recommendations-btn" class="btn btn-primary btn-glow">
+                            <i data-lucide="play" class="btn-icon"></i> Generate recommendations
+                        </button>
+                    </div>
+
+                    <!-- Recommendations List Container -->
+                    <div id="recommendations-container" class="recommendations-list">
+                        <!-- Initial / Empty State -->
+                        <div class="empty-state recommendations-empty">
+                            <i data-lucide="clapperboard" class="empty-icon highlight"></i>
+                            <h3>Awaiting Taste Profile</h3>
+                            <p>We combine your genres preferences (60% weight) with similar users' reviews (40% weight) to recommend perfect movies. Start rating or click above to see popular choices!</p>
+                        </div>
+                        <!-- Recommended movies will be dynamically injected here -->
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>Built with Flask, Pandas, and Scikit-Learn | Hybrid Filtering Recommendation Engine</p>
+        </footer>
+    </div>
+
+    <!-- Main JavaScript Sheet -->
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
